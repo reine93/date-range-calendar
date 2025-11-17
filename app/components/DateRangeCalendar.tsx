@@ -3,12 +3,13 @@
 
 import { useState } from "react";
 import { DayPicker, DateRange } from "react-day-picker";
+import { getCalendarStyleConfig } from "./style-config/calendarStyleConfig";
 
 export default function DateRangeCalendar() {
   const [range, setRange] = useState<DateRange | undefined>();
+  const calendarStyling = getCalendarStyleConfig();
 
   return (
-    <div className="p-4 bg-white rounded-xl shadow-md border border-slate-200 overflow-hidden">
       <DayPicker
         mode="range"
         selected={range}
@@ -17,7 +18,7 @@ export default function DateRangeCalendar() {
         numberOfMonths={2}
         animate
         navLayout="around"
+        classNames={calendarStyling}
       />
-    </div>
   );
 }
