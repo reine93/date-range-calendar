@@ -1,12 +1,21 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { DayPicker, DateRange } from "react-day-picker";
+import type { CalendarDay } from "@/lib/calendar-types";
 import { getCalendarStyleConfig } from "./style-config/calendarStyleConfig";
 
-export default function DateRangeCalendar() {
+type Props = {
+  availability: CalendarDay[];
+};
+
+export default function DateRangeCalendar({ availability }: Props) {
   const [range, setRange] = useState<DateRange | undefined>();
   const calendarStyling = getCalendarStyleConfig();
+
+  //useEffect for testing purposes
+  useEffect(() => {console.log('availability:', availability)}, [])
+
 
   return (
       <DayPicker

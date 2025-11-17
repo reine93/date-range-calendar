@@ -1,9 +1,5 @@
-import DateRangeCalendar from "./components/DateRangeCalendar";
+import CalendarPage from "./components/CalendarPage";
 
 export default function HomePage() {
-  return (
-    <main className="min-h-screen flex items-center justify-center bg-slate-100">
-        <DateRangeCalendar />
-    </main>
-  );
+  return <CalendarPage />;
 }
