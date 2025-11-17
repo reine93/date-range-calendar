@@ -8,7 +8,5 @@ export async function GET() {
     days: mockCalendarDays,
   };
 
-  return NextResponse.json(body, {
-    status: 200,
-  });
+  return NextResponse.json(body);
 }

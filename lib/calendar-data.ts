@@ -10,7 +10,7 @@ export async function getCalendarData(): Promise<CalendarApiResponse> {
   });
 
   if (!res.ok) {
-    throw new Error("Failed to fetch calendar data");
+    throw new Error(`Failed to fetch calendar data: ${res.status} ${res.statusText}`);
   }
 
   return res.json();
