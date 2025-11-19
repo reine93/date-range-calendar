@@ -2,10 +2,9 @@ import { NextResponse } from "next/server";
 import { normalizeCalendar, type RawData } from "@/lib/calendar-normalize";
 
 export async function GET() {
-  const upstreamUrl =
-    process.env.EXTERNAL_CALENDAR_URL || "http://localhost:4000/rawcalendar";
+  const externalApiUrl = process.env.EXTERNAL_CALENDAR_URL || "http://localhost:4000/rawcalendar";
 
-  const res = await fetch(upstreamUrl, {
+  const res = await fetch(externalApiUrl, {
     cache: "no-store",
   });
 

@@ -12,10 +12,10 @@ type Props = {
 };
 
 export default function DateRangeCalendar({ availability, firstAvailableDate }: Props) {
-  const calendarStyling = getCalendarStyleConfig();
-
   const { range, getDisabledDays, checkoutDates, handleRangeSelect } =
     useDateRangeCalendar(availability);
+
+  const calendarStyling = getCalendarStyleConfig();
 
   const defaultMonth = firstAvailableDate ? parseISO(firstAvailableDate) : undefined;
 
