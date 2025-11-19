@@ -1,4 +1,3 @@
-//data layer
 import type { CalendarApiResponse } from "@/lib/calendar-types";
 import "server-only";
 
@@ -13,5 +12,5 @@ export async function getCalendarData(): Promise<CalendarApiResponse> {
     throw new Error(`Failed to fetch calendar data: ${res.status} ${res.statusText}`);
   }
 
-  return res.json();
+  return res.json() as Promise<CalendarApiResponse>;
 }

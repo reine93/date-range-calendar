@@ -4,9 +4,12 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
+    "dev:all": "npm run mock-api & npm run dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "prepare-mock-api": "node scripts/prepare-mock-api.js",
+    "mock-api": "npm run prepare-mock-api && json-server --watch mock-api/db.json --port 4000"
   },
   "dependencies": {
     "next": "16.0.3",
@@ -23,6 +26,7 @@
     "eslint-config-next": "16.0.3",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-prettier": "^5.5.4",
+    "json-server": "^1.0.0-beta.3",
     "prettier": "^3.6.2",
     "prettier-plugin-tailwindcss": "^0.7.1",
     "tailwindcss": "^4",
