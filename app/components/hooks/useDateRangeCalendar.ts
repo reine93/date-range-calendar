@@ -1,4 +1,3 @@
-// app/components/useDateRangeCalendar.ts
 import { useMemo, useState } from "react";
 import { type DateRange } from "react-day-picker";
 import { addDays, eachDayOfInterval, format, parseISO } from "date-fns";

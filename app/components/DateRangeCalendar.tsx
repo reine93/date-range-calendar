@@ -8,7 +8,7 @@ import { parseISO } from "date-fns";
 
 type Props = {
   availability: CalendarDay[];
-  firstAvailableDate?: string;
+  firstAvailableDate?: CalendarDay["date"];
 };
 
 export default function DateRangeCalendar({ availability, firstAvailableDate }: Props) {
