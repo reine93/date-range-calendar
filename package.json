@@ -12,6 +12,7 @@
     "mock-api": "npm run prepare-mock-api && json-server --watch mock-api/db.json --port 4000"
   },
   "dependencies": {
+    "date-fns": "^4.1.0",
     "next": "16.0.3",
     "react": "19.2.0",
     "react-day-picker": "^9.11.1",
