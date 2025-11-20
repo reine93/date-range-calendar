@@ -1,5 +1,5 @@
 "use client";
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import { DayPicker, DayPickerProps, type DateRange } from "react-day-picker";
 import type { AvailabilityDay } from "@/lib/calendar-types";
 import type { CalendarStyleValue } from "./style-config/styling-types";
@@ -26,21 +26,22 @@ export default function DateRangeCalendar({
   getDisabledDays,
   checkoutDates,
 }: Props) {
-  const priceLookup = usePriceLookup(availability);
   const { dayPickerStyling, modifierStyling, dayButtonStyling } = style;
-
+  const priceLookup = usePriceLookup(availability);
   const DayButtonWithPrice = makeDayButtonWithPrice(priceLookup, dayButtonStyling);
 
-  const initialMonth = useMemo(
-    () => (firstAvailableDate ? parseISO(firstAvailableDate) : undefined),
-    [firstAvailableDate],
+  const initialMonth = firstAvailableDate ? parseISO(firstAvailableDate) : undefined;
+  const [currentMonthView, setCurrentMonthView] = useState<Date | undefined>(
+    range?.from ?? initialMonth,
   );
-  const [userMonth, setUserMonth] = useState<Date | undefined>(range?.from ?? initialMonth);
-  const displayedMonth = userMonth ?? range?.from ?? initialMonth;
+  const startMonth = availability[0] ? parseISO(availability[0].date) : undefined;
+  const endMonth =
+    availability.length > 0 ? parseISO(availability[availability.length - 1].date) : undefined;
+  const displayedMonth = currentMonthView ?? initialMonth;
 
   const handleSelect = (nextRange: DateRange | undefined) => {
-    if (nextRange?.from && nextRange?.to) {
-      setUserMonth(nextRange.from);
+    if (!currentMonthView && nextRange?.from) {
+      setCurrentMonthView(nextRange.from);
     }
     onRangeChange(nextRange);
   };
@@ -49,7 +50,7 @@ export default function DateRangeCalendar({
     mode: "range" as const,
     defaultMonth: initialMonth,
     month: displayedMonth,
-    onMonthChange: setUserMonth,
+    onMonthChange: setCurrentMonthView,
     selected: range,
     onSelect: handleSelect,
     min: 1,
@@ -58,6 +59,8 @@ export default function DateRangeCalendar({
     numberOfMonths: 2,
     animate: true,
     navLayout: "around" as const,
+    startMonth,
+    endMonth,
     classNames: dayPickerStyling,
     disabled: getDisabledDays,
     modifiers: { checkout: checkoutDates },
