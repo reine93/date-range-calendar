@@ -5,7 +5,7 @@ import type { CalendarStyleValue } from "./style-config/styling-types";
 import { useCalendarRangeSelection } from "./hooks/useCalendarRangeSelection";
 import { parseISO } from "date-fns";
 import { usePriceLookup } from "./hooks/usePriceLookup";
-import { makePriceDayButton } from "./DayButtonWithPrice";
+import { makeDayButtonWithPrice } from "./DayButtonWithPrice";
 
 type Props = {
   availability: AvailabilityDay[];
@@ -20,7 +20,7 @@ export default function DateRangeCalendar({ availability, firstAvailableDate, st
   const priceLookup = usePriceLookup(availability);
   const { dayPickerStyling, modifierStyling, dayButtonStyling } = style;
 
-  const DayButtonWithPrice = makePriceDayButton(priceLookup, dayButtonStyling);
+  const DayButtonWithPrice = makeDayButtonWithPrice(priceLookup, dayButtonStyling);
 
   const defaultMonth = firstAvailableDate ? parseISO(firstAvailableDate) : undefined;
 
