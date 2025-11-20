@@ -1,5 +1,5 @@
 import { getDefaultClassNames, ClassNames } from "react-day-picker";
-import type { CalendarStyleValue, LayoutStyleClasses, DayButtonStyling } from "./StyleContext";
+import type { CalendarStyleValue, LayoutStyleClasses, DayButtonStyling } from "./styling-types";
 
 export function getCalendarStyleConfig(): CalendarStyleValue {
   const defaults = getDefaultClassNames();

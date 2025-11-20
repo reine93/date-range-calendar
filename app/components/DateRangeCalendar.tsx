@@ -1,7 +1,7 @@
 "use client";
 import { DayPicker, DayPickerProps } from "react-day-picker";
 import type { AvailabilityDay } from "@/lib/calendar-types";
-import type { CalendarStyleValue } from "./style-config/StyleContext";
+import type { CalendarStyleValue } from "./style-config/styling-types";
 import { useCalendarRangeSelection } from "./hooks/useCalendarRangeSelection";
 import { parseISO } from "date-fns";
 import { usePriceLookup } from "./hooks/usePriceLookup";
