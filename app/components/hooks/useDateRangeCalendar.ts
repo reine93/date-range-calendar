@@ -3,29 +3,25 @@ import { type DateRange } from "react-day-picker";
 import { addDays, eachDayOfInterval, format, parseISO } from "date-fns";
 import type { CalendarDay } from "@/lib/calendar-types";
 
+function toIsoDate(date: Date): string {
+  return format(date, "yyyy-MM-dd");
+}
+
 export function useDateRangeCalendar(availability: CalendarDay[]) {
   const [range, setRange] = useState<DateRange | undefined>();
+  console.log("range from ", range?.from, "range to ", range?.to);
 
   const availabilityMap = useMemo(
     () => new Map(availability.map((day) => [day.date, day.status])),
     [availability],
   );
 
-  const isStartingNewRange = !range?.from || (range?.from && range?.to);
-
-  const getDisabledDays = useMemo(
+  const getDisabledDays = useMemo<(date: Date) => boolean>(
     () => (date: Date) => {
-      const isoDate = format(date, "yyyy-MM-dd");
-      const status = availabilityMap.get(isoDate);
-
-      //mark checkout day as disabled day if you attempt to start range with it
-      if (isStartingNewRange && status === "checkout") {
-        return true;
-      }
-
+      const status = availabilityMap.get(toIsoDate(date));
       return status === "unavailable";
     },
-    [availabilityMap, isStartingNewRange],
+    [availabilityMap],
   );
 
   const checkoutDates = useMemo(
@@ -37,7 +33,7 @@ export function useDateRangeCalendar(availability: CalendarDay[]) {
     const start = addDays(startDate, 1);
     const end = addDays(endDate, -1);
 
-    // If there are no dates strictly between startDate and endDate, return false to avoid range error
+    // If there are no dates strictly between startDate and endDate, return false
     if (start > end) {
       return false;
     }
@@ -45,8 +41,7 @@ export function useDateRangeCalendar(availability: CalendarDay[]) {
     const middleNights = eachDayOfInterval({ start, end });
 
     for (const date of middleNights) {
-      const isoDate = format(date, "yyyy-MM-dd");
-      if (availabilityMap.get(isoDate) === "checkout") {
+      if (availabilityMap.get(toIsoDate(date)) === "checkout") {
         return true;
       }
     }
@@ -60,17 +55,20 @@ export function useDateRangeCalendar(availability: CalendarDay[]) {
       return;
     }
 
-    const startingNewRangeNow = !range?.from || (range?.from && range?.to);
+    const fromISO = nextRange.from ? toIsoDate(nextRange.from) : null;
+    const fromStatus = fromISO ? availabilityMap.get(fromISO) : null;
 
-    //Can't start range on a checkout day
-    if (startingNewRangeNow && nextRange.from && !nextRange.to) {
-      const isoFrom = format(nextRange.from, "yyyy-MM-dd");
-      if (availabilityMap.get(isoFrom) === "checkout") {
-        return;
-      }
+    // Prevent checkout day to be marked as starting day
+    if (fromStatus === "checkout" && !nextRange.to) {
+      return;
     }
 
-    //Can't create a range where there is checkout date in middle
+    // Prevent checkout day to be marked as starting day in case user selects starting day in past
+    if (fromStatus === "checkout" && nextRange.to) {
+      return;
+    }
+
+    // Prevent selecting a date range which has checkout in middle
     if (nextRange.from && nextRange.to) {
       if (hasCheckoutDayInRange(nextRange.from, nextRange.to)) {
         return;
