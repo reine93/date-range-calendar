@@ -1,5 +1,5 @@
 import { getCalendarData } from "@/lib/calendar-data";
-import DateRangeCalendar from "./DateRangeCalendar";
+import CalendarShell from "./CalendarShell";
 import { getCalendarStyleConfig } from "./style-config/calendarStyleConfig";
 
 export default async function CalendarPage() {
@@ -22,7 +22,7 @@ export default async function CalendarPage() {
 
   return (
     <main className={styleConfig.layoutStyling.page}>
-      <DateRangeCalendar
+      <CalendarShell
         availability={days}
         firstAvailableDate={firstAvailableDate}
         style={styleConfig}
