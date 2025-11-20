@@ -1,21 +1,26 @@
 "use client";
-
+import { useMemo } from "react";
 import { DayPicker, DayPickerProps } from "react-day-picker";
-import type { CalendarDay } from "@/lib/calendar-types";
+import type { AvailabilityDay } from "@/lib/calendar-types";
 import { getCalendarStyleConfig } from "./style-config/calendarStyleConfig";
-import { useDateRangeCalendar } from "./hooks/useDateRangeCalendar";
+import { useCalendarRangeSelection } from "./hooks/useCalendarRangeSelection";
 import { parseISO } from "date-fns";
+import { usePriceLookup } from "./hooks/usePriceLookup";
+import { makePriceDayButton } from "./DayButtonWithPrice";
 
 type Props = {
-  availability: CalendarDay[];
-  firstAvailableDate?: CalendarDay["date"];
+  availability: AvailabilityDay[];
+  firstAvailableDate?: AvailabilityDay["date"];
 };
 
 export default function DateRangeCalendar({ availability, firstAvailableDate }: Props) {
-  const { range, getDisabledDays, checkoutDates, handleRangeSelect } =
-    useDateRangeCalendar(availability);
-
   const calendarStyling = getCalendarStyleConfig();
+
+  const { range, getDisabledDays, checkoutDates, handleRangeSelect } =
+    useCalendarRangeSelection(availability);
+
+  const priceLookup = usePriceLookup(availability);
+  const DayButtonWithPrice = useMemo(() => makePriceDayButton(priceLookup), [priceLookup]);
 
   const defaultMonth = firstAvailableDate ? parseISO(firstAvailableDate) : undefined;
 
@@ -36,6 +41,7 @@ export default function DateRangeCalendar({ availability, firstAvailableDate }: 
     modifiersClassNames: {
       checkout: "bg-yellow-200 text-yellow-900 rounded-full",
     },
+    components: { DayButton: DayButtonWithPrice },
   };
 
   return <DayPicker {...dayPickerProps} />;
