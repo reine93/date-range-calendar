@@ -1,8 +1,8 @@
 "use client";
-import { DayPicker, DayPickerProps } from "react-day-picker";
+import { useMemo, useState } from "react";
+import { DayPicker, DayPickerProps, type DateRange } from "react-day-picker";
 import type { AvailabilityDay } from "@/lib/calendar-types";
 import type { CalendarStyleValue } from "./style-config/styling-types";
-import { useCalendarRangeSelection } from "./hooks/useCalendarRangeSelection";
 import { parseISO } from "date-fns";
 import { usePriceLookup } from "./hooks/usePriceLookup";
 import { makeDayButtonWithPrice } from "./DayButtonWithPrice";
@@ -11,24 +11,47 @@ type Props = {
   availability: AvailabilityDay[];
   firstAvailableDate?: AvailabilityDay["date"];
   style: CalendarStyleValue;
+  range: DateRange | undefined;
+  onRangeChange: (next: DateRange | undefined) => void;
+  getDisabledDays: (date: Date) => boolean;
+  checkoutDates: Date[];
 };
 
-export default function DateRangeCalendar({ availability, firstAvailableDate, style }: Props) {
-  const { range, getDisabledDays, checkoutDates, handleRangeSelect } =
-    useCalendarRangeSelection(availability);
-
+export default function DateRangeCalendar({
+  availability,
+  firstAvailableDate,
+  style,
+  range,
+  onRangeChange,
+  getDisabledDays,
+  checkoutDates,
+}: Props) {
   const priceLookup = usePriceLookup(availability);
   const { dayPickerStyling, modifierStyling, dayButtonStyling } = style;
 
   const DayButtonWithPrice = makeDayButtonWithPrice(priceLookup, dayButtonStyling);
 
-  const defaultMonth = firstAvailableDate ? parseISO(firstAvailableDate) : undefined;
+  const initialMonth = useMemo(
+    () => (firstAvailableDate ? parseISO(firstAvailableDate) : undefined),
+    [firstAvailableDate],
+  );
+  const [userMonth, setUserMonth] = useState<Date | undefined>(range?.from ?? initialMonth);
+  const displayedMonth = userMonth ?? range?.from ?? initialMonth;
+
+  const handleSelect = (nextRange: DateRange | undefined) => {
+    if (nextRange?.from && nextRange?.to) {
+      setUserMonth(nextRange.from);
+    }
+    onRangeChange(nextRange);
+  };
 
   const dayPickerProps: DayPickerProps = {
     mode: "range" as const,
-    defaultMonth,
+    defaultMonth: initialMonth,
+    month: displayedMonth,
+    onMonthChange: setUserMonth,
     selected: range,
-    onSelect: handleRangeSelect,
+    onSelect: handleSelect,
     min: 1,
     excludeDisabled: true,
     fixedWeeks: true,
