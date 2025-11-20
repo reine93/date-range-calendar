@@ -16,7 +16,7 @@ function formatPrice(priceInfo: DayPrice) {
   return `$${priceInfo.price}`; // fallback if no currency
 }
 
-export function makePriceDayButton(prices: PriceLookup, dayButtonStyling: DayButtonStyling) {
+export function makeDayButtonWithPrice(prices: PriceLookup, dayButtonStyling: DayButtonStyling) {
   return function DayButtonWithPrice(props: DayButtonProps) {
     const { dayButtonStyle, dayPriceStyle } = dayButtonStyling;
     const date = format(props.day.date, "yyyy-MM-dd");
