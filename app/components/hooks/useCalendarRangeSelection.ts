@@ -1,13 +1,13 @@
 import { useMemo, useState } from "react";
 import { type DateRange } from "react-day-picker";
 import { addDays, eachDayOfInterval, format, parseISO } from "date-fns";
-import type { CalendarDay } from "@/lib/calendar-types";
+import type { AvailabilityDay } from "@/lib/calendar-types";
 
 function toIsoDate(date: Date): string {
   return format(date, "yyyy-MM-dd");
 }
 
-export function useDateRangeCalendar(availability: CalendarDay[]) {
+export function useCalendarRangeSelection(availability: AvailabilityDay[]) {
   const [range, setRange] = useState<DateRange | undefined>();
   console.log("range from ", range?.from, "range to ", range?.to);
 

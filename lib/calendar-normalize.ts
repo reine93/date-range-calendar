@@ -1,5 +1,5 @@
 import "server-only";
-import type { CalendarDay, CalendarApiResponse } from "./calendar-types";
+import type { AvailabilityDay, CalendarApiResponse } from "./calendar-types";
 
 export type RawEntry = {
   date: string;
@@ -18,7 +18,7 @@ export function normalizeCalendar(rawData: RawData): CalendarApiResponse {
   // ISO dates are lexicographically sortable, so Object.keys().sort() is safe.
   const sortedDates = Object.keys(rawData).sort();
 
-  const normalizedDays: CalendarDay[] = [];
+  const normalizedDays: AvailabilityDay[] = [];
   let firstAvailableDate: string | undefined;
   let previousWasAvailable = false;
 
@@ -32,7 +32,7 @@ export function normalizeCalendar(rawData: RawData): CalendarApiResponse {
     const isAvailable = !!entry.available;
 
     // Default status based on availability
-    let status: CalendarDay["status"] = isAvailable ? "available" : "unavailable";
+    let status: AvailabilityDay["status"] = isAvailable ? "available" : "unavailable";
 
     // If current date is not available but previous was, mark as checkout date.
     if (!isAvailable && previousWasAvailable) {

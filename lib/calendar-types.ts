@@ -1,13 +1,13 @@
-export type CalendarDayStatus = "available" | "unavailable" | "checkout";
+export type AvailabilityStatus = "available" | "unavailable" | "checkout";
 
-export type CalendarDay = {
+export type AvailabilityDay = {
   date: string; // ISO string YYYY-MM-DD
-  status: CalendarDayStatus;
+  status: AvailabilityStatus;
   price?: number;
   currency?: string | null;
 };
 
 export type CalendarApiResponse = {
-  days: CalendarDay[];
+  days: AvailabilityDay[];
   firstAvailableDate?: string;
 };
