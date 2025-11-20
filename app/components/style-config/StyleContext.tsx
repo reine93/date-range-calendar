@@ -1,13 +1,8 @@
-"use client";
+import type { ClassNames } from "react-day-picker";
 
-import { createContext, useContext } from "react";
-
-export type CalendarStyleClasses = {
-  container: string;
-  months: string;
-  dayButton: string;
-  dayPrice: string;
-  checkoutModifier: string;
+export type DayButtonStyling = {
+  dayButtonStyle: string;
+  dayPriceStyle: string;
 };
 
 export type LayoutStyleClasses = {
@@ -15,27 +10,9 @@ export type LayoutStyleClasses = {
   errorText: string;
 };
 
-export type CalendarStyleConfig = {
-  calendar: CalendarStyleClasses;
-  layout: LayoutStyleClasses;
+export type CalendarStyleValue = {
+  dayButtonStyling: DayButtonStyling;
+  layoutStyling: LayoutStyleClasses;
+  dayPickerStyling: ClassNames;
+  modifierStyling: Record<string, string>;
 };
-
-const CalendarStyleContext = createContext<CalendarStyleConfig | null>(null);
-
-export function CalendarStyleProvider({
-  value,
-  children,
-}: {
-  value: CalendarStyleConfig;
-  children: React.ReactNode;
-}) {
-  return <CalendarStyleContext.Provider value={value}>{children}</CalendarStyleContext.Provider>;
-}
-
-export function useCalendarStyleConfig(): CalendarStyleConfig {
-  const ctx = useContext(CalendarStyleContext);
-  if (!ctx) {
-    throw new Error("CalendarStyleProvider is missing in the component tree.");
-  }
-  return ctx;
-}

@@ -1,7 +1,5 @@
-//server wrapper component
 import { getCalendarData } from "@/lib/calendar-data";
 import DateRangeCalendar from "./DateRangeCalendar";
-import { CalendarStyleProvider } from "./style-config/StyleContext";
 import { getCalendarStyleConfig } from "./style-config/calendarStyleConfig";
 
 export default async function CalendarPage() {
@@ -10,25 +8,25 @@ export default async function CalendarPage() {
     firstAvailableDate: null,
   }));
 
-  const { styleConfig } = getCalendarStyleConfig();
+  const styleConfig = getCalendarStyleConfig();
 
   if (!days) {
     return (
-      <CalendarStyleProvider value={styleConfig}>
-        <main className={styleConfig.layout.page}>
-          <div className={styleConfig.layout.errorText}>
-            Failed to load calendar data. Please try again later.
-          </div>
-        </main>
-      </CalendarStyleProvider>
+      <main className={styleConfig.layoutStyling.page}>
+        <div className={styleConfig.layoutStyling.errorText}>
+          Failed to load calendar data. Please try again later.
+        </div>
+      </main>
     );
   }
 
   return (
-    <CalendarStyleProvider value={styleConfig}>
-      <main className={styleConfig.layout.page}>
-        <DateRangeCalendar availability={days} firstAvailableDate={firstAvailableDate} />
-      </main>
-    </CalendarStyleProvider>
+    <main className={styleConfig.layoutStyling.page}>
+      <DateRangeCalendar
+        availability={days}
+        firstAvailableDate={firstAvailableDate}
+        style={styleConfig}
+      />
+    </main>
   );
 }

@@ -1,8 +1,6 @@
-"use client";
-
 import { DayButton, type DayButtonProps } from "react-day-picker";
 import { format } from "date-fns";
-import { useCalendarStyleConfig } from "./style-config/StyleContext";
+import type { DayButtonStyling } from "./style-config/StyleContext";
 
 type DayPrice = { price: number; currency?: string | null };
 type PriceLookup = Map<string, DayPrice>;
@@ -18,19 +16,17 @@ function formatPrice(priceInfo: DayPrice) {
   return `$${priceInfo.price}`; // fallback if no currency
 }
 
-export function makePriceDayButton(prices: PriceLookup) {
+export function makePriceDayButton(prices: PriceLookup, dayButtonStyling: DayButtonStyling) {
   return function DayButtonWithPrice(props: DayButtonProps) {
-    const {
-      calendar: { dayButton, dayPrice },
-    } = useCalendarStyleConfig();
+    const { dayButtonStyle, dayPriceStyle } = dayButtonStyling;
     const date = format(props.day.date, "yyyy-MM-dd");
     const priceInfo = prices.get(date);
     const hasPrice = priceInfo && priceInfo.price != null;
 
     return (
-      <DayButton {...props} className={`${props.className ?? ""} ${dayButton}`}>
+      <DayButton {...props} className={`${props.className ?? ""} ${dayButtonStyle}`}>
         <span className="leading-none">{props.children}</span>
-        {hasPrice ? <span className={dayPrice}>{formatPrice(priceInfo!)}</span> : null}
+        {hasPrice ? <span className={dayPriceStyle}>{formatPrice(priceInfo!)}</span> : null}
       </DayButton>
     );
   };
