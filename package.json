@@ -4,12 +4,12 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "dev:all": "npm run mock-api & npm run dev",
+    "dev:all": "concurrently \"npm run mock-api\" \"npm run dev\"",
     "build": "next build",
     "start": "next start",
+    "start:all": "concurrently \"npm run mock-api\" \"npm run start\"",
     "lint": "eslint",
-    "prepare-mock-api": "node scripts/prepare-mock-api.js",
-    "mock-api": "npm run prepare-mock-api && json-server --watch mock-api/db.json --port 4000"
+    "mock-api": "json-server --watch mock-api/db.json --port 4000"
   },
   "dependencies": {
     "date-fns": "^4.1.0",
@@ -23,6 +23,7 @@
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "concurrently": "^9.2.1",
     "eslint": "^9",
     "eslint-config-next": "16.0.3",
     "eslint-config-prettier": "^10.1.8",
