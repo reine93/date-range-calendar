@@ -1,6 +1,8 @@
 //server wrapper component
 import { getCalendarData } from "@/lib/calendar-data";
 import DateRangeCalendar from "./DateRangeCalendar";
+import { CalendarStyleProvider } from "./style-config/StyleContext";
+import { getCalendarStyleConfig } from "./style-config/calendarStyleConfig";
 
 export default async function CalendarPage() {
   const { days, firstAvailableDate } = await getCalendarData().catch(() => ({
@@ -8,17 +10,25 @@ export default async function CalendarPage() {
     firstAvailableDate: null,
   }));
 
+  const { styleConfig } = getCalendarStyleConfig();
+
   if (!days) {
     return (
-      <main className="flex min-h-screen items-center justify-center bg-slate-100">
-        <div className="text-red-600">Failed to load calendar data. Please try again later.</div>
-      </main>
+      <CalendarStyleProvider value={styleConfig}>
+        <main className={styleConfig.layout.page}>
+          <div className={styleConfig.layout.errorText}>
+            Failed to load calendar data. Please try again later.
+          </div>
+        </main>
+      </CalendarStyleProvider>
     );
   }
 
   return (
-    <main className="flex min-h-screen items-center justify-center bg-slate-100">
-      <DateRangeCalendar availability={days} firstAvailableDate={firstAvailableDate} />
-    </main>
+    <CalendarStyleProvider value={styleConfig}>
+      <main className={styleConfig.layout.page}>
+        <DateRangeCalendar availability={days} firstAvailableDate={firstAvailableDate} />
+      </main>
+    </CalendarStyleProvider>
   );
 }

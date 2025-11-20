@@ -14,12 +14,12 @@ type Props = {
 };
 
 export default function DateRangeCalendar({ availability, firstAvailableDate }: Props) {
-  const calendarStyling = getCalendarStyleConfig();
-
   const { range, getDisabledDays, checkoutDates, handleRangeSelect } =
     useCalendarRangeSelection(availability);
 
   const priceLookup = usePriceLookup(availability);
+  const { dayPickerClassNames, modifierClasses } = getCalendarStyleConfig();
+
   const DayButtonWithPrice = useMemo(() => makePriceDayButton(priceLookup), [priceLookup]);
 
   const defaultMonth = firstAvailableDate ? parseISO(firstAvailableDate) : undefined;
@@ -35,12 +35,10 @@ export default function DateRangeCalendar({ availability, firstAvailableDate }: 
     numberOfMonths: 2,
     animate: true,
     navLayout: "around" as const,
-    classNames: calendarStyling,
+    classNames: dayPickerClassNames,
     disabled: getDisabledDays,
     modifiers: { checkout: checkoutDates },
-    modifiersClassNames: {
-      checkout: "bg-yellow-200 text-yellow-900 rounded-full",
-    },
+    modifiersClassNames: modifierClasses,
     components: { DayButton: DayButtonWithPrice },
   };
 
