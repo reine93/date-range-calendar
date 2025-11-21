@@ -10,7 +10,7 @@ export function getCalendarStyleConfig(): CalendarStyleValue {
   const defaults = getDefaultClassNames();
 
   const layoutStyling: LayoutStyleClasses = {
-    page: "flex min-h-screen items-center justify-center bg-slate-100",
+    page: "flex min-h-screen justify-center bg-slate-100 py-6",
     errorText: "text-red-600",
   };
 
@@ -34,6 +34,11 @@ export function getCalendarStyleConfig(): CalendarStyleValue {
     "p-4 bg-white rounded-xl shadow-md border border-slate-200 overflow-hidden";
   const dayPickerMonths = "w-xs md:w-full";
   const checkoutModifier = "bg-yellow-200 text-yellow-900 rounded-full";
+  const mobileDayPickerRoot =
+    "max-h-[80vh] overflow-y-auto overflow-x-hidden [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden";
+  const mobileDayPickerMonths = "";
+  const desktopDayPickerWrapper = "hidden sm:block";
+  const mobileDayPickerWrapper = "sm:hidden";
 
   const dayPickerStyling: ClassNames = {
     ...defaults,
@@ -56,6 +61,10 @@ export function getCalendarStyleConfig(): CalendarStyleValue {
     layoutStyling,
     formStyling,
     dayPickerStyling,
+    mobileDayPickerRoot,
+    mobileDayPickerMonths,
+    desktopDayPickerWrapper,
+    mobileDayPickerWrapper,
     modifierStyling,
   };
 }

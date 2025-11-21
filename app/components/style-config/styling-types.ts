@@ -28,5 +28,9 @@ export type CalendarStyleValue = {
   layoutStyling: LayoutStyleClasses;
   formStyling: FormStyling;
   dayPickerStyling: ClassNames;
+  mobileDayPickerRoot: string;
+  mobileDayPickerMonths: string;
+  desktopDayPickerWrapper: string;
+  mobileDayPickerWrapper: string;
   modifierStyling: Record<string, string>;
 };
