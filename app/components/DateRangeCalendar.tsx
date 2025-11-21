@@ -41,10 +41,12 @@ export default function DateRangeCalendar({
   const startMonth = availability[0] ? parseISO(availability[0].date) : undefined;
   const endMonth =
     availability.length > 0 ? parseISO(availability[availability.length - 1].date) : undefined;
-  const totalMonths =
+  const totalMonths = Math.max(
+    1,
     startMonth && endMonth
       ? differenceInCalendarMonths(endMonth, startMonth) + 1
-      : availability.length;
+      : availability.length,
+  );
   const displayedMonth = currentMonthView ?? initialMonth;
 
   const handleSelect = (nextRange: DateRange | undefined) => {
@@ -91,7 +93,7 @@ export default function DateRangeCalendar({
 
   const mobileDayPickerProps: DayPickerProps = {
     ...sharedDayPickerProps,
-    numberOfMonths: Math.min(totalMonths, 19),
+    numberOfMonths: Math.min(Math.max(1, totalMonths), 19),
     hideNavigation: true,
     classNames: {
       ...dayPickerStyling,
