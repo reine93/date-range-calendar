@@ -87,6 +87,7 @@ export default function CalendarShell({ availability, firstAvailableDate, style 
               onRangeChange={handleRangeSelect}
               getDisabledDays={getDisabledDays}
               checkoutDates={checkoutDates}
+              isOpen={isOpen}
             />
           </div>
         </>
