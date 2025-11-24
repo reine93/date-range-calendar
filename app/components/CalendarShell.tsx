@@ -7,6 +7,9 @@ import type { AvailabilityDay } from "@/lib/calendar-types";
 import type { CalendarStyleValue, FormStyling } from "./style-config/styling-types";
 import { useCalendarRangeSelection } from "./hooks/useCalendarRangeSelection";
 import DateRangeCalendar from "./DateRangeCalendar";
+import { PrimaryButton } from "./ui-elements/PrimaryButton";
+import { DateInputField } from "./ui-elements/DateInputField";
+import { MdCalendarToday } from "react-icons/md";
 
 type Props = {
   availability: AvailabilityDay[];
@@ -18,9 +21,9 @@ type Props = {
 };
 
 function formatRangeLabel(range: DateRange | undefined) {
-  if (!range?.from && !range?.to) return "Select dates";
-  if (range?.from && !range.to) return format(range.from, "MMM d");
-  return `${format(range.from!, "MMM d")} – ${format(range.to!, "MMM d")}`;
+  if (!range?.from && !range?.to) return "Select Dates";
+  if (range?.from && !range.to) return format(range.from, "dd/MM/yyyy");
+  return `${format(range.from!, "dd/MM/yyyy")} - ${format(range.to!, "dd/MM/yyyy")}`;
 }
 
 function DateSelectionControls({
@@ -29,31 +32,69 @@ function DateSelectionControls({
   onToggle,
   onSubmit,
   formStyling,
+  hasRange,
 }: {
   label: string;
   canSubmit: boolean;
   onToggle: () => void;
   onSubmit: () => void;
   formStyling: FormStyling;
+  hasRange: boolean;
 }) {
   return (
     <div className={formStyling.controlsRow}>
-      <button
-        type="button"
+      <DateInputField
         className={`${formStyling.trigger} ${formStyling.input}`}
+        filledClassName={formStyling.inputFilled}
+        hasRange={hasRange}
         onClick={onToggle}
+        onKeyDown={(e) => {
+          if (e.key === "Enter" || e.key === " ") {
+            e.preventDefault();
+            onToggle();
+          }
+        }}
+        icon={<MdCalendarToday className={`${formStyling.inputIcon}`} />}
       >
-        <span className={formStyling.label}>Dates</span>
-        <span className={formStyling.value}>{label}</span>
-      </button>
-      <button
-        type="button"
-        className={canSubmit ? formStyling.submit : formStyling.submitDisabled}
-        disabled={!canSubmit}
-        onClick={onSubmit}
-      >
-        Submit
-      </button>
+        <div className={formStyling.textRow}>
+          <div className={formStyling.textColumn}>
+            {hasRange ? (
+              <>
+                <span className={formStyling.label}>Select Dates</span>
+                <span className={`${formStyling.subValue}`}>{label}</span>
+              </>
+            ) : (
+              <span className={`${formStyling.value}`}>{label}</span>
+            )}
+          </div>
+          <span className={formStyling.inputCaret}>
+            <svg
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="1"
+            >
+              <path d="M6 9l6 6 6-6" />
+            </svg>
+          </span>
+        </div>
+        <div className={formStyling.inputButton}>
+          <PrimaryButton
+            className={formStyling.submit}
+            hoverClassName={formStyling.submitHover}
+            disabledClassName={formStyling.submitDisabled}
+            disabled={!canSubmit}
+            onClick={(e) => {
+              e.stopPropagation();
+              onSubmit();
+            }}
+          >
+            Confirm
+          </PrimaryButton>
+        </div>
+      </DateInputField>
     </div>
   );
 }
@@ -74,6 +115,7 @@ export default function CalendarShell({
   const { formStyling } = style;
   const label = formatRangeLabel(range);
   const canSubmit = Boolean(range?.from && range?.to);
+  const hasRange = Boolean(range?.from || range?.to);
 
   return (
     <div className={formStyling.wrapper}>
@@ -83,12 +125,13 @@ export default function CalendarShell({
         onToggle={() => setIsOpen((prev) => !prev)}
         onSubmit={() => setIsOpen(false)}
         formStyling={formStyling}
+        hasRange={hasRange}
       />
 
       {isOpen ? (
         <>
           <div className={formStyling.overlay} aria-hidden onMouseDown={() => setIsOpen(false)} />
-          <div className={`${formStyling.popover} z-20`}>
+          <div className={`${formStyling.popover}`}>
             <DateRangeCalendar
               availability={availability}
               firstAvailableDate={firstAvailableDate}

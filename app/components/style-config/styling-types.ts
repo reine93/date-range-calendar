@@ -11,10 +11,18 @@ export type FormStyling = {
   trigger: string;
   label: string;
   value: string;
+  subValue: string;
   input: string;
+  inputFilled: string;
+  inputButton: string;
+  inputIcon: string;
+  inputCaret: string;
+  textRow: string;
+  textColumn: string;
   popover: string;
   overlay: string;
   submit: string;
+  submitHover: string;
   submitDisabled: string;
 };
 
