@@ -3,7 +3,7 @@ import { useState } from "react";
 import { DayPicker, DayPickerProps, type DateRange } from "react-day-picker";
 import type { AvailabilityDay } from "@/lib/calendar-types";
 import type { CalendarStyleValue } from "./style-config/styling-types";
-import { differenceInCalendarMonths, parseISO } from "date-fns";
+import { parseISO } from "date-fns";
 import { usePriceLookup } from "./hooks/usePriceLookup";
 import { makeDayButtonWithPrice } from "./DayButtonWithPrice";
 import { useMobileMonthScroll } from "./hooks/useMobileMonthScroll";
@@ -12,6 +12,9 @@ import { useMediaQuery } from "./hooks/useMediaQuery";
 type Props = {
   availability: AvailabilityDay[];
   firstAvailableDate?: AvailabilityDay["date"];
+  startMonthISO?: string;
+  endMonthISO?: string;
+  totalMonthsFromServer?: number;
   style: CalendarStyleValue;
   range: DateRange | undefined;
   onRangeChange: (next: DateRange | undefined) => void;
@@ -23,6 +26,9 @@ type Props = {
 export default function DateRangeCalendar({
   availability,
   firstAvailableDate,
+  startMonthISO,
+  endMonthISO,
+  totalMonthsFromServer,
   style,
   range,
   onRangeChange,
@@ -35,17 +41,11 @@ export default function DateRangeCalendar({
   const DayButtonWithPrice = makeDayButtonWithPrice(priceLookup, dayButtonStyling);
   const isMobile = useMediaQuery("(max-width: 639px)");
   const initialMonth = firstAvailableDate ? parseISO(firstAvailableDate) : undefined;
+  const startMonth = startMonthISO ? parseISO(startMonthISO) : undefined;
+  const endMonth = endMonthISO ? parseISO(endMonthISO) : undefined;
+  const totalMonths = totalMonthsFromServer ?? 0;
   const [currentMonthView, setCurrentMonthView] = useState<Date | undefined>(
     range?.from ?? initialMonth,
-  );
-  const startMonth = availability[0] ? parseISO(availability[0].date) : undefined;
-  const endMonth =
-    availability.length > 0 ? parseISO(availability[availability.length - 1].date) : undefined;
-  const totalMonths = Math.max(
-    1,
-    startMonth && endMonth
-      ? differenceInCalendarMonths(endMonth, startMonth) + 1
-      : availability.length,
   );
   const displayedMonth = currentMonthView ?? initialMonth;
 

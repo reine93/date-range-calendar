@@ -10,4 +10,7 @@ export type AvailabilityDay = {
 export type CalendarApiResponse = {
   days: AvailabilityDay[];
   firstAvailableDate?: string;
+  startMonth?: string;
+  endMonth?: string;
+  totalMonths?: number;
 };

@@ -1,4 +1,5 @@
 import "server-only";
+import { differenceInCalendarMonths, parseISO } from "date-fns";
 import type { AvailabilityDay, CalendarApiResponse } from "./calendar-types";
 
 export type RawEntry = {
@@ -57,5 +58,14 @@ export function normalizeCalendar(rawData: RawData): CalendarApiResponse {
   return {
     days: normalizedDays,
     firstAvailableDate,
+    startMonth: normalizedDays[0]?.date,
+    endMonth: normalizedDays[normalizedDays.length - 1]?.date,
+    totalMonths:
+      normalizedDays.length >= 2
+        ? differenceInCalendarMonths(
+            parseISO(normalizedDays[normalizedDays.length - 1]?.date),
+            parseISO(normalizedDays[0]?.date),
+          ) + 1
+        : normalizedDays.length,
   };
 }
