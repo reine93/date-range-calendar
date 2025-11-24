@@ -11,6 +11,9 @@ import DateRangeCalendar from "./DateRangeCalendar";
 type Props = {
   availability: AvailabilityDay[];
   firstAvailableDate?: AvailabilityDay["date"];
+  startMonthISO?: string;
+  endMonthISO?: string;
+  totalMonthsFromServer?: number;
   style: CalendarStyleValue;
 };
 
@@ -55,7 +58,14 @@ function DateSelectionControls({
   );
 }
 
-export default function CalendarShell({ availability, firstAvailableDate, style }: Props) {
+export default function CalendarShell({
+  availability,
+  firstAvailableDate,
+  startMonthISO,
+  endMonthISO,
+  totalMonthsFromServer,
+  style,
+}: Props) {
   const { range, getDisabledDays, checkoutDates, handleRangeSelect } =
     useCalendarRangeSelection(availability);
 
@@ -82,6 +92,9 @@ export default function CalendarShell({ availability, firstAvailableDate, style 
             <DateRangeCalendar
               availability={availability}
               firstAvailableDate={firstAvailableDate}
+              startMonthISO={startMonthISO}
+              endMonthISO={endMonthISO}
+              totalMonthsFromServer={totalMonthsFromServer}
               style={style}
               range={range}
               onRangeChange={handleRangeSelect}
