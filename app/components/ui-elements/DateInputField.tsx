@@ -2,6 +2,7 @@
 
 import React from "react";
 import classNames from "classnames";
+import type { FormStyling } from "../style-config/styling-types";
 
 type Props = {
   className?: string;
@@ -11,6 +12,7 @@ type Props = {
   onClick: () => void;
   onKeyDown?: (e: React.KeyboardEvent<HTMLDivElement>) => void;
   hasRange: boolean;
+  formStyling: FormStyling;
 };
 
 export function DateInputField({
@@ -21,14 +23,15 @@ export function DateInputField({
   onClick,
   onKeyDown,
   hasRange,
+  formStyling,
 }: Props) {
   const merged = classNames(className, hasRange ? filledClassName : "");
 
   return (
     <div role="button" tabIndex={0} className={merged} onClick={onClick} onKeyDown={onKeyDown}>
-      <div className="flex w-full items-center gap-3">
+      <div className={formStyling.inputRow}>
         {icon}
-        <div className="flex flex-1 items-center gap-2">{children}</div>
+        <div className={formStyling.inputContentRow}>{children}</div>
       </div>
     </div>
   );

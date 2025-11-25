@@ -5,15 +5,28 @@ import type { DayButtonStyling } from "./style-config/styling-types";
 type DayPrice = { price: number; currency?: string | null };
 type PriceLookup = Map<string, DayPrice>;
 
+function getCurrencySymbol(currency: string) {
+  const parts = new Intl.NumberFormat(undefined, {
+    style: "currency",
+    currency,
+    maximumFractionDigits: 0,
+    currencyDisplay: "narrowSymbol",
+  }).formatToParts(0);
+
+  return parts.find((part) => part.type === "currency")?.value ?? currency;
+}
+
 function formatPrice(priceInfo: DayPrice) {
+  const formattedNumber = new Intl.NumberFormat(undefined, {
+    maximumFractionDigits: 0,
+  }).format(priceInfo.price);
+
   if (priceInfo.currency) {
-    return new Intl.NumberFormat(undefined, {
-      style: "currency",
-      currency: priceInfo.currency,
-      maximumFractionDigits: 0,
-    }).format(priceInfo.price);
+    const symbol = getCurrencySymbol(priceInfo.currency);
+    return `${formattedNumber} ${symbol}`;
   }
-  return `$${priceInfo.price}`; // fallback if no currency
+
+  return `${formattedNumber} $`; // fallback if no currency
 }
 
 export function makeDayButtonWithPrice(prices: PriceLookup, dayButtonStyling: DayButtonStyling) {

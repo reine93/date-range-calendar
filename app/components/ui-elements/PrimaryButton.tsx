@@ -17,10 +17,7 @@ export function PrimaryButton({
   children,
   ...rest
 }: Props) {
-  const merged = classNames(className, {
-    [disabledClassName ?? ""]: disabled,
-    [hoverClassName ?? ""]: !disabled,
-  });
+  const merged = classNames(className, disabled ? disabledClassName : hoverClassName);
 
   return (
     <button type="button" className={merged} disabled={disabled} {...rest}>
