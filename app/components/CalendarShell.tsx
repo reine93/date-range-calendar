@@ -45,6 +45,15 @@ export default function CalendarShell({
   const canSubmit = Boolean(range?.from && range?.to);
   const hasRange = Boolean(range?.from || range?.to);
 
+  const sharedControlProps = {
+    label,
+    canSubmit,
+    formStyling,
+    hasRange,
+    isMobile,
+    isOpen,
+  };
+
   if (isMobile) {
     return (
       <div className={formStyling.wrapper}>
@@ -52,14 +61,9 @@ export default function CalendarShell({
           <div className={formStyling.mobileBar}>
             <div className={formStyling.mobileBarInner}>
               <DateSelectionControls
-                label={label}
-                canSubmit={canSubmit}
+                {...sharedControlProps}
                 onToggle={() => setIsOpen((prev) => !prev)}
                 onSubmit={() => setIsOpen(false)}
-                formStyling={formStyling}
-                hasRange={hasRange}
-                isMobile={isMobile}
-                isOpen={isOpen}
               />
             </div>
           </div>
@@ -72,14 +76,9 @@ export default function CalendarShell({
           formStyling={formStyling}
           footer={
             <DateSelectionControls
-              label={label}
-              canSubmit={canSubmit}
+              {...sharedControlProps}
               onToggle={() => {}}
               onSubmit={() => setIsOpen(false)}
-              formStyling={formStyling}
-              hasRange={hasRange}
-              isMobile={isMobile}
-              isOpen={isOpen}
             />
           }
         >
@@ -104,14 +103,9 @@ export default function CalendarShell({
   return (
     <div className={formStyling.wrapper}>
       <DateSelectionControls
-        label={label}
-        canSubmit={canSubmit}
+        {...sharedControlProps}
         onToggle={() => setIsOpen((prev) => !prev)}
         onSubmit={() => setIsOpen(false)}
-        formStyling={formStyling}
-        hasRange={hasRange}
-        isMobile={isMobile}
-        isOpen={isOpen}
       />
 
       {isOpen ? (
