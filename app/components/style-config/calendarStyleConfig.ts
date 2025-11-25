@@ -74,7 +74,6 @@ export function getCalendarStyleConfig(): CalendarStyleValue {
   const mobileDayPickerRoot =
     "max-h-[80vh] overflow-y-auto overflow-x-hidden [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden";
   const mobileDayPickerMonths = "";
-  // Visibility is controlled in code; keep wrappers unhidden by default.
   const desktopDayPickerWrapper = "block";
   const mobileDayPickerWrapper = "block";
 
