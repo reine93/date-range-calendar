@@ -4,6 +4,7 @@ import type {
   LayoutStyleClasses,
   DayButtonStyling,
   FormStyling,
+  LegendStyling,
 } from "./styling-types";
 
 export function getCalendarStyleConfig(): CalendarStyleValue {
@@ -81,7 +82,7 @@ export function getCalendarStyleConfig(): CalendarStyleValue {
   const dayPickerStyling: ClassNames = {
     ...defaults,
     root: `${defaults.root} ${dayPickerContainer}`,
-    chevron: `${defaults.chevron} !fill-[#48455499]`,
+    chevron: `${defaults.chevron} !fill-[#48455499] !w-4 !h-4`,
     months: `${defaults.months} ${dayPickerMonths}`,
     month_caption: `${defaults.month_caption ?? ""} flex justify-center text-center`,
     caption_label: `${defaults.caption_label ?? ""} uppercase text-[#0050FF] text-base font-medium leading-[0.8] text-center`,
@@ -91,6 +92,7 @@ export function getCalendarStyleConfig(): CalendarStyleValue {
     range_middle: `${rangeBase}`,
     range_end: `${rangeBase} !bg-transparent text-[#2f2d32] relative after:content-[''] after:absolute after:inset-0 after:bg-[#0050FF]/40 after:[clip-path:polygon(0_100%,100%_100%,0_0)] after:-z-10 z-10`,
     disabled: `${defaults.disabled ?? ""} bg-[#4845540D] rounded-none [border-radius:0]`,
+    day_button: `${defaults.day_button ?? ""} !text-[#484554cc]`,
   };
 
   const modifierStyling: Record<string, string> = {
@@ -103,8 +105,23 @@ export function getCalendarStyleConfig(): CalendarStyleValue {
     dayPriceStyle: "text-[10px] leading-tight text-slate-500",
   };
 
+  const legendStyling: LegendStyling = {
+    container:
+      "hidden md:flex items-center justify-around mt-4 mb-2 text-m font-normal text-[#484554cc]",
+    item: "flex items-center gap-3",
+    label: "leading-none",
+    swatch: "inline-block w-4 h-4 rounded-[2px] border",
+    swatchAvailable: "border-[#cfd2d8] bg-white",
+    swatchCheckin: "border-[#4845540D] bg-[#0050FF66]",
+    swatchCheckout: "border-[#4845540D] bg-[linear-gradient(45deg,#0050FF66_50%,transparent_50%)]",
+    swatchCheckoutOnly:
+      "border-[#4845540D] bg-[linear-gradient(45deg,transparent_50%,#4845540D_50%)]",
+    swatchUnavailable: "border-[#4845540D] bg-[#4845540D]",
+  };
+
   return {
     dayButtonStyling,
+    legendStyling,
     layoutStyling,
     formStyling,
     dayPickerStyling,

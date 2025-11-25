@@ -5,6 +5,18 @@ export type DayButtonStyling = {
   dayPriceStyle: string;
 };
 
+export type LegendStyling = {
+  container: string;
+  item: string;
+  label: string;
+  swatch: string;
+  swatchAvailable: string;
+  swatchCheckin: string;
+  swatchCheckout: string;
+  swatchCheckoutOnly: string;
+  swatchUnavailable: string;
+};
+
 export type FormStyling = {
   wrapper: string;
   controlsRow: string;
@@ -54,6 +66,7 @@ export type LayoutStyleClasses = {
 
 export type CalendarStyleValue = {
   dayButtonStyling: DayButtonStyling;
+  legendStyling: LegendStyling;
   layoutStyling: LayoutStyleClasses;
   formStyling: FormStyling;
   dayPickerStyling: ClassNames;
