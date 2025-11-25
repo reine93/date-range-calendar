@@ -1,6 +1,6 @@
 import { DayButton, type DayButtonProps } from "react-day-picker";
 import { format } from "date-fns";
-import type { DayButtonStyling } from "./style-config/styling-types";
+import type { DayButtonStyling } from "../style-config/styling-types";
 
 type DayPrice = { price: number; currency?: string | null };
 type PriceLookup = Map<string, DayPrice>;

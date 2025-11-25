@@ -6,9 +6,10 @@ import type { AvailabilityDay } from "@/lib/calendar-types";
 import type { CalendarStyleValue } from "./style-config/styling-types";
 import { parseISO } from "date-fns";
 import { usePriceLookup } from "./hooks/usePriceLookup";
-import { makeDayButtonWithPrice } from "./DayButtonWithPrice";
+import { makeDayButtonWithPrice } from "./ui-elements/DayButtonWithPrice";
 import { useMobileMonthScroll } from "./hooks/useMobileMonthScroll";
 import { useMediaQuery } from "./hooks/useMediaQuery";
+import { LegendFooter } from "./ui-elements/LegendFooter";
 
 type Props = {
   availability: AvailabilityDay[];
@@ -37,7 +38,7 @@ export default function DateRangeCalendar({
   checkoutDates,
   isOpen = true,
 }: Props) {
-  const { dayPickerStyling, modifierStyling, dayButtonStyling } = style;
+  const { dayPickerStyling, modifierStyling, dayButtonStyling, legendStyling } = style;
   const priceLookup = usePriceLookup(availability);
   const DayButtonWithPrice = makeDayButtonWithPrice(priceLookup, dayButtonStyling);
   const isMobile = useMediaQuery("(max-width: 767px)");
@@ -94,6 +95,7 @@ export default function DateRangeCalendar({
     startMonth,
     endMonth,
     classNames: dayPickerStyling,
+    footer: <LegendFooter legendStyling={legendStyling} />,
   };
 
   const mobileDayPickerProps: DayPickerProps = {
