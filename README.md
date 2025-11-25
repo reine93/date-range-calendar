@@ -1,36 +1,59 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Date Range Calendar
 
-## Getting Started
+A Next.js (App Router) project that renders a hotel-style date range selector with pricing, disabled/check-out days, and a polished desktop/mobile experience. Styling is Tailwind-driven via a shared style config, with mock data served by `json-server` or any external calendar API.
 
-First, run the development server:
+## Stack
+
+- Next.js 16 (App Router) with TypeScript
+- Tailwind utility classes (centralized in `app/components/style-config`)
+- `react-day-picker` for calendars
+- `json-server` mock API (optional, port 4000)
+- Concurrent scripts via `concurrently`
+
+## Project Structure
+
+- `app/page.tsx` — Home entry.
+- `app/components/` — Calendar UI
+- `app/api/calendar/route.ts` — Server Route fetching external calendar data; normalizes via `lib/calendar-normalize`.
+- `lib/` — Data normalization/types for calendar payloads.
+- `mock-api/` — `db.json` served by json-server at `http://localhost:4000/rawcalendar` (default).
+- `app/components/style-config/` — Styling configuration for layout, form, day picker, legends.
+
+## Scripts
+
+Use `start-calendar` to run the full stack locally in one command:
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm run start-calendar
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Or run the steps manually:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+npm run build
+npm run mock-api
+npm run start
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Data & API
 
-## Learn More
+- Server Route: `app/api/calendar/route.ts` fetches from `EXTERNAL_CALENDAR_URL` (falls back to `http://localhost:4000/rawcalendar`).
+- Mock data lives in `mock-api/db.json` and is served by `json-server`.
 
-To learn more about Next.js, take a look at the following resources:
+## Running Locally
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```bash
+npm install
+npm run start-calendar   # build + mock API + start
+# or
+npm run dev:all          # mock API + dev server (no build)
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Open http://localhost:3000 and ensure the mock API is on http://localhost:4000 if you use the default.
 
-## Deploy on Vercel
+## Key Features
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- Two-month desktop view with centered captions, custom weekday formatting, range styling, and availability legend footer.
+- Mobile sheet/popup with scrollable months, fades, and sticky input/CTA.
+- Pricing and disabled/check-out handling with custom DayPicker components.
+- Tailwind classes centralized for easy theming.

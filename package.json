@@ -7,9 +7,9 @@
     "dev:all": "concurrently \"npm run mock-api\" \"npm run dev\"",
     "build": "next build",
     "start": "next start",
-    "start:all": "concurrently \"npm run mock-api\" \"npm run start\"",
     "lint": "eslint",
-    "mock-api": "json-server --watch mock-api/db.json --port 4000"
+    "mock-api": "json-server --watch mock-api/db.json --port 4000",
+    "start-calendar": "npm run build && concurrently \"npm run mock-api\" \"npm start\""
   },
   "dependencies": {
     "classnames": "^2.5.1",
