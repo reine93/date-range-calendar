@@ -1,6 +1,5 @@
 "use client";
 
-import React from "react";
 import { MdCalendarToday } from "react-icons/md";
 import { IoArrowForwardOutline } from "react-icons/io5";
 import type { FormStyling } from "../style-config/styling-types";
