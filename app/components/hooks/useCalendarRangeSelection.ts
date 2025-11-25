@@ -9,7 +9,6 @@ function toIsoDate(date: Date): string {
 
 export function useCalendarRangeSelection(availability: AvailabilityDay[]) {
   const [range, setRange] = useState<DateRange | undefined>();
-  console.log("range from ", range?.from, "range to ", range?.to);
 
   const availabilityMap = useMemo(
     () => new Map(availability.map((day) => [day.date, day.status])),

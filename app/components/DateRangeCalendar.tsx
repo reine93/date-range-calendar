@@ -1,6 +1,7 @@
 "use client";
 import { useState } from "react";
 import { DayPicker, DayPickerProps, type DateRange } from "react-day-picker";
+import { format } from "date-fns";
 import type { AvailabilityDay } from "@/lib/calendar-types";
 import type { CalendarStyleValue } from "./style-config/styling-types";
 import { parseISO } from "date-fns";
@@ -39,7 +40,7 @@ export default function DateRangeCalendar({
   const { dayPickerStyling, modifierStyling, dayButtonStyling } = style;
   const priceLookup = usePriceLookup(availability);
   const DayButtonWithPrice = makeDayButtonWithPrice(priceLookup, dayButtonStyling);
-  const isMobile = useMediaQuery("(max-width: 639px)");
+  const isMobile = useMediaQuery("(max-width: 767px)");
   const initialMonth = firstAvailableDate ? parseISO(firstAvailableDate) : undefined;
   const startMonth = startMonthISO ? parseISO(startMonthISO) : undefined;
   const endMonth = endMonthISO ? parseISO(endMonthISO) : undefined;
@@ -67,13 +68,17 @@ export default function DateRangeCalendar({
 
   const sharedDayPickerProps: DayPickerProps = {
     mode: "range" as const,
+    weekStartsOn: 1,
+    formatters: {
+      formatWeekdayName: (date, options) =>
+        format(date, "EEE", options?.locale ? { locale: options.locale } : undefined).toUpperCase(),
+    },
     defaultMonth: initialMonth,
     selected: range,
     onSelect: handleSelect,
     min: 1,
     excludeDisabled: true,
     fixedWeeks: true,
-    animate: true,
     disabled: getDisabledDays,
     modifiers: { checkout: checkoutDates },
     modifiersClassNames: modifierStyling,

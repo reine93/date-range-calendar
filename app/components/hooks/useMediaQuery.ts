@@ -1,5 +1,3 @@
-"use client";
-
 import { useEffect, useState } from "react";
 
 export function useMediaQuery(query: string): boolean {
@@ -14,6 +12,5 @@ export function useMediaQuery(query: string): boolean {
     mediaQueryList.addEventListener("change", handleChange);
     return () => mediaQueryList.removeEventListener("change", handleChange);
   }, [query]);
-
   return isMatch;
 }
