@@ -56,7 +56,7 @@ export function getCalendarStyleConfig(): CalendarStyleValue {
       "relative flex-1 overflow-y-auto px-2 pb-24 pt-2 bg-white [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden",
     mobileSheetBodyInner: "w-full max-w-[26rem] md:max-w-[28rem] mx-auto px-3 md:px-4 relative",
     mobileSheetMask:
-      "[mask-image:linear-gradient(to_bottom,transparent,black_1.5rem,black_calc(100%-9.5rem),transparent)]",
+      "[mask-image:linear-gradient(to_bottom,transparent,black_1.5rem,black_calc(100%_-_9.5rem),transparent)]",
     mobileSheetFadeTop:
       "pointer-events-none absolute inset-x-0 top-0 h-6 bg-gradient-to-b from-white to-transparent",
     mobileSheetFadeBottom:

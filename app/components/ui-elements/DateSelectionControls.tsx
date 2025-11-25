@@ -45,6 +45,7 @@ export function DateSelectionControls({
         formStyling={formStyling}
         onClick={onToggle}
         onKeyDown={(e) => {
+          if (e.currentTarget !== e.target) return;
           if (e.key === "Enter" || e.key === " ") {
             e.preventDefault();
             onToggle();
